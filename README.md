@@ -38,7 +38,7 @@ In case you're in need of a refresher...
 - SSR increases response times, and the overall load on your server
 - SSR adds a meaningful amount of complexity to your application
 
-If you've got an answer to the "Do I need SSR?" question, ask yourself if you need SSR in a PHP application. Benefits of rendering your app in a PHP runtime are:
+If you've got an answor to the "Do I need SSR?" question, ask yourself if you need SSR in a PHP application. Benefits of rendering your app in a PHP runtime are:
 
 - You can make use of your applications session & state
 - Reduced infrastructure complexity because you don't need to maintain a node server
@@ -67,7 +67,7 @@ This guide assumes you already know how to build a server-rendered application. 
 
 Before getting started, lets review this library's core concepts.
 
-If you want to render your JavaScript app, you'll need to call the `render` method on the `Renderer` class. `Renderer` has two dependencies: a `Resolve` and an `Engine`, which will respectively fetch the necessary server & client scripts, and execute the server script.
+If you want to render your JavaScript app, you'll need to call the `render` method on the `Renderer` class. `Renderer` has two dependencies: a `Resolver` and an `Engine`, which will respectively fetch the necessary server & client scripts, and execute the server script.
 
 #### Resolvers
 
