@@ -65,7 +65,7 @@ This guide assumes you already know how to build a server-rendered application. 
 
 ### Core concepts
 
-Before getting started, lets review this library's core concepts.
+Before getting started, let's review this library's core concepts.
 
 If you want to render your JavaScript app, you'll need to call the `render` method on the `Renderer` class. `Renderer` has two dependencies: a `Resolver` and an `Engine`, which will respectively fetch the necessary server & client scripts, and execute the server script.
 
