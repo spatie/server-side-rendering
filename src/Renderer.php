@@ -27,7 +27,7 @@ class Renderer
     protected $entry;
 
     /** @var string */
-    protected $fallback;
+    protected $fallback = '';
 
     /** @var bool */
     protected $withScript = true;
