@@ -10,7 +10,7 @@ class RendererTest extends TestCase
     public function it_can_render_a_javascript_app()
     {
         $result = $this->renderer
-            ->withEntry('app')
+            ->entry('app')
             ->render();
 
         $this->assertEquals(
@@ -23,7 +23,7 @@ class RendererTest extends TestCase
     public function it_renders_a_fallback_when_disabled()
     {
         $result = $this->renderer
-            ->withEntry('app')
+            ->entry('app')
             ->withFallback('<div id="app"></div>')
             ->enabled(false)
             ->render();
@@ -38,7 +38,7 @@ class RendererTest extends TestCase
     public function it_renders_a_fallback_when_server_rendering_fails()
     {
         $result = $this->renderer
-            ->withEntry('app-broken')
+            ->entry('app-broken')
             ->withFallback('<div id="app"></div>')
             ->render();
 
@@ -54,7 +54,7 @@ class RendererTest extends TestCase
         $this->expectException(ProcessFailedException::class);
 
         $this->renderer
-            ->withEntry('app-broken')
+            ->entry('app-broken')
             ->debug()
             ->render();
     }
@@ -62,7 +62,7 @@ class RendererTest extends TestCase
     /** @test */
     public function it_implements_to_string()
     {
-        $result = (string) $this->renderer->withEntry('app');
+        $result = (string) $this->renderer->entry('app');
 
         $this->assertEquals(
             '<p>Hello, world!</p><script src="/js/app-client.js"></script>',

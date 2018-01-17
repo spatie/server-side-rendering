@@ -10,7 +10,7 @@ class ClientScriptTest extends TestCase
     public function it_can_render_an_app_without_a_client_script_tag()
     {
         $result = $this->renderer
-            ->withEntry('app')
+            ->entry('app')
             ->withoutScript()
             ->render();
 
@@ -24,7 +24,7 @@ class ClientScriptTest extends TestCase
     public function it_can_render_an_app_with_a_client_script_tag()
     {
         $result = $this->renderer
-            ->withEntry('app')
+            ->entry('app')
             ->withoutScript()
             ->withScript()
             ->render();
@@ -39,7 +39,7 @@ class ClientScriptTest extends TestCase
     public function it_can_render_the_client_script_tag_with_defer()
     {
         $result = $this->renderer
-            ->withEntry('app')
+            ->entry('app')
             ->loadScriptDeferred()
             ->render();
 
@@ -53,7 +53,7 @@ class ClientScriptTest extends TestCase
     public function it_can_render_the_client_script_tag_with_async()
     {
         $result = $this->renderer
-            ->withEntry('app')
+            ->entry('app')
             ->loadScriptAsync()
             ->render();
 
@@ -67,7 +67,7 @@ class ClientScriptTest extends TestCase
     public function it_can_render_the_client_script_tag_in_sync()
     {
         $result = $this->renderer
-            ->withEntry('app')
+            ->entry('app')
             ->loadScriptAsync()
             ->loadScriptSync()
             ->render();
@@ -82,7 +82,7 @@ class ClientScriptTest extends TestCase
     public function it_can_render_the_client_script_tag_before_the_ssr_output()
     {
         $result = $this->renderer
-            ->withEntry('app')
+            ->entry('app')
             ->loadScriptBefore()
             ->render();
 
@@ -96,7 +96,7 @@ class ClientScriptTest extends TestCase
     public function it_can_render_the_client_script_tag_after_the_ssr_output()
     {
         $result = $this->renderer
-            ->withEntry('app')
+            ->entry('app')
             ->loadScriptBefore()
             ->loadScriptAfter()
             ->render();

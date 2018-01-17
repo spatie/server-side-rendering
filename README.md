@@ -16,7 +16,7 @@ $resolver = new DefaultResolver(__DIR__.'../../public/js');
 
 $renderer = new Renderer($engine, $resolver);
 
-echo $renderer->render('app');
+echo $renderer->entry('app')->render();
 
 // <div>My server rendered app!</div>
 ```

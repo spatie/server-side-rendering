@@ -76,7 +76,7 @@ class Renderer
      *
      * @return $this
      */
-    public function withEntry(string $entry)
+    public function entry(string $entry)
     {
         $this->entry = $entry;
 

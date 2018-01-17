@@ -8,7 +8,7 @@ class ContextTest extends TestCase
     public function it_can_render_an_app_with_a_context_value()
     {
         $result = $this->renderer
-            ->withEntry('app-with-context')
+            ->entry('app-with-context')
             ->withContext('user', ['name' => 'Sebastian'])
             ->render();
 
@@ -22,7 +22,7 @@ class ContextTest extends TestCase
     public function it_can_render_an_app_with_a_context_array()
     {
         $result = $this->renderer
-            ->withEntry('app-with-context')
+            ->entry('app-with-context')
             ->withContext(['user' => ['name' => 'Sebastian']])
             ->render();
 

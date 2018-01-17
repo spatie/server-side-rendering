@@ -8,7 +8,7 @@ class EnvTest extends TestCase
     public function it_can_render_an_app_with_an_env_value()
     {
         $result = $this->renderer
-            ->withEntry('app-with-env')
+            ->entry('app-with-env')
             ->withEnv('APP_ENV', 'production')
             ->render();
 
@@ -22,7 +22,7 @@ class EnvTest extends TestCase
     public function it_can_render_an_app_with_an_env_array()
     {
         $result = $this->renderer
-            ->withEntry('app-with-env')
+            ->entry('app-with-env')
             ->withEnv(['APP_ENV' => 'production'])
             ->render();
 
