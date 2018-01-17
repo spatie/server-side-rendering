@@ -34,4 +34,12 @@ class V8Test extends TestCase
 
         $engine->run('foo.bar.baz()');
     }
+
+    /** @test */
+    public function it_has_a_dispatch_handler()
+    {
+        $engine = new V8();
+
+        $this->assertEquals('print', $engine->getDispatchHandler());
+    }
 }

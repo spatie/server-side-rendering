@@ -1,1 +1,1 @@
-dispatch('Hello, world!');
+dispatch('<p>Hello, world!</p>');

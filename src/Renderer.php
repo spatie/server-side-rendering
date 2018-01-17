@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Contracts\Support\Htmlable;
 use Spatie\Ssr\Exceptions\EngineError;
 
-class Renderer implements Htmlable
+class Renderer
 {
     /** @var \Spatie\ServerRenderer\Engine */
     protected $engine;
@@ -15,7 +15,10 @@ class Renderer implements Htmlable
     protected $resolver;
 
     /** @var array */
-    protected $context;
+    protected $context = [];
+
+    /** @var array */
+    protected $env = [];
 
     /** @var bool */
     protected $enabled = true;
@@ -27,7 +30,7 @@ class Renderer implements Htmlable
     protected $fallback;
 
     /** @var bool */
-    protected $withScript = false;
+    protected $withScript = true;
 
     /** @var string */
     protected $scriptLoadStrategy;
@@ -38,7 +41,8 @@ class Renderer implements Htmlable
     /** @var bool */
     protected $debug = false;
 
-    public function __construct(Engine $engine, Resolver $resolver) {
+    public function __construct(Engine $engine, Resolver $resolver)
+    {
         $this->engine = $engine;
         $this->resolver = $resolver;
     }
@@ -48,7 +52,7 @@ class Renderer implements Htmlable
      *
      * @return $this
      */
-    public function enabled(bool $enabled)
+    public function enabled(bool $enabled = true)
     {
         $this->enabled = $enabled;
 
@@ -60,7 +64,7 @@ class Renderer implements Htmlable
      *
      * @return $this
      */
-    public function debug(bool $debug)
+    public function debug(bool $debug = true)
     {
         $this->debug = $debug;
 
@@ -87,12 +91,31 @@ class Renderer implements Htmlable
      */
     public function withContext($context, $value = null)
     {
-        if (! is_array($context)) {
+        if (!is_array($context)) {
             $context = [$context => $value];
         }
 
         foreach ($context as $key => $value) {
             $this->context[$key] = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string|array $key
+     * @param mixed $value
+     *
+     * @return $this
+     */
+    public function withEnv($env, $value = null)
+    {
+        if (! is_array($env)) {
+            $env = [$env => $value];
+        }
+
+        foreach ($env as $key => $value) {
+            $this->env[$key] = $value;
         }
 
         return $this;
@@ -106,6 +129,16 @@ class Renderer implements Htmlable
     public function withFallback(string $fallback)
     {
         $this->fallback = $fallback;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function withoutScript()
+    {
+        $this->withScript = false;
 
         return $this;
     }
@@ -137,10 +170,13 @@ class Renderer implements Htmlable
         }
 
         try {
-            $result = $this->engine->run([
-                $this->envScript(),
-                $this->appScript(),
+            $serverScript = implode(';', [
+                $this->dispatchScript(),
+                $this->environmentScript(),
+                $this->applicationScript(),
             ]);
+
+            $result = $this->engine->run($serverScript);
         } catch (EngineError $exception) {
             if ($this->debug) {
                 throw $exception->getException();
@@ -150,15 +186,10 @@ class Renderer implements Htmlable
         }
 
         if ($this->scriptPosition === 'before') {
-            return $this->contextTag() . $this->scriptTag() . $result;
+            return $this->scriptTag() . $result;
         }
 
-        return $this->contextTag() . $result . $this->scriptTag();
-    }
-
-    public function toHtml(): string
-    {
-        return $this->render();
+        return $result . $this->scriptTag();
     }
 
     public function __toString() : string
@@ -175,22 +206,30 @@ class Renderer implements Htmlable
         return $this->fallback . $this->scriptTag();
     }
 
-    protected function envScript(): string
+    protected function environmentScript(): string
     {
-        $process = json_encode(['env' => ['VUE_ENV' => 'server', 'NODE_ENV' => 'production']]);
         $context = json_encode($this->context, JSON_FORCE_OBJECT);
+        $process = json_encode($this->env, JSON_FORCE_OBJECT);
 
-        return "var process = {$process}; var ssrContext = {$context};";
+        $envAssignments = array_map(function ($value, $key) {
+            return "process.env.{$key} = " . json_encode($value);
+        }, $this->env, array_keys($this->env));
+
+        return implode(';', [
+            'var process = process || { env: {} }',
+            implode(';', $envAssignments),
+            "var context = {$context}",
+        ]);
     }
 
-    protected function appScript(): string
+    protected function dispatchScript(): string
     {
-        return $this->resolver->getServerScript($this->entry);
+        return "var dispatch = {$this->engine->getDispatchHandler()}";
     }
 
-    protected function contextTag(): string
+    protected function applicationScript(): string
     {
-        return '<script>var ssrContext = ' . json_encode($this->context, JSON_FORCE_OBJECT) . ';</script>';
+        return $this->resolver->getServerScriptContents($this->entry);
     }
 
     protected function scriptTag(): string

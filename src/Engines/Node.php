@@ -22,11 +22,6 @@ class Node implements Engine
         $this->tempPath = $tempPath;
     }
 
-    /**
-     * @param string $script
-     *
-     * @return string
-     */
     public function run(string $script): string
     {
         $tempFilePath = $this->createTempFilePath();
@@ -42,6 +37,11 @@ class Node implements Engine
         } finally {
             unlink($tempFilePath);
         }
+    }
+
+    public function getDispatchHandler(): string
+    {
+        return 'console.log';
     }
 
     protected function createTempFilePath(): string

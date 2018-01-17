@@ -36,4 +36,12 @@ class NodeTest extends TestCase
 
         $engine->run('foo.bar.baz()');
     }
+
+    /** @test */
+    public function it_has_a_dispatch_handler()
+    {
+        $engine = new Node($this->nodePath, $this->tempPath);
+
+        $this->assertEquals('console.log', $engine->getDispatchHandler());
+    }
 }

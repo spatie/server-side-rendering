@@ -17,11 +17,6 @@ class V8 implements Engine
         $this->v8 = new V8Js();
     }
 
-    /**
-     * @param string $script
-     *
-     * @return string
-     */
     public function run(string $script): string
     {
         try {
@@ -35,5 +30,10 @@ class V8 implements Engine
         } finally {
             ob_end_clean();
         }
+    }
+
+    public function getDispatchHandler(): string
+    {
+        return 'print';
     }
 }

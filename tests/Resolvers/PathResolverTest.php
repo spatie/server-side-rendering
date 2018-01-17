@@ -33,6 +33,6 @@ class PathResolverTest extends TestCase
 
         $serverScript = $resolver->getServerScriptContents('app');
 
-        $this->assertEquals("dispatch('Hello, world!');\n", $serverScript);
+        $this->assertEquals("dispatch('<p>Hello, world!</p>');\n", $serverScript);
     }
 }
