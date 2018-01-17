@@ -54,7 +54,7 @@ If you're still sure you want to keep going, please continue!
 You can install the package via composer:
 
 ```bash
-composer require spatie/ssr
+composer require spatie/server-side-rendering
 ```
 
 ## Usage
