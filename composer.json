@@ -21,7 +21,6 @@
         "symfony/process": "^3.0|^4.0"
     },
     "require-dev": {
-        "larapack/dd": "^1.0",
         "phpunit/phpunit": "^6.0"
     },
     "autoload": {
