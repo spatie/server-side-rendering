@@ -27,6 +27,8 @@ echo $renderer->entry('app')->render();
 
 If you're building a Laravel app, check out the [laravel-ssr](https://github.com/spatie/laravel-ssr) package instead.
 
+This readme assumes you already have some know-how about building server rendered JavaScript apps.
+
 ## Who's this package for?
 
 Server side rendering (SSR) can be hard, and non-trivial to enable in your JavaScript application. Before using this library, make sure you know what you're getting in to. Alex Grigoryan has a [pretty concise article](https://medium.com/walmartlabs/the-benefits-of-server-side-rendering-over-client-side-rendering-5d07ff2cefe8) on the benefits and caveats of SSR.
