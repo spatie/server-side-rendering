@@ -31,7 +31,7 @@ This readme assumes you already have some know-how about building server rendere
 
 ## Who's this package for?
 
-Server side rendering (SSR) can be hard, and non-trivial to enable in your JavaScript application. Before using this library, make sure you know what you're getting in to. Alex Grigoryan has a [pretty concise article](https://medium.com/walmartlabs/the-benefits-of-server-side-rendering-over-client-side-rendering-5d07ff2cefe8) on the benefits and caveats of SSR.
+Server side rendering (SSR) can be hard, and non-trivial to enable in your JavaScript application. Before using this library, make sure you know what you're getting in to. Alex Grigoryan has a [pretty concise article](https://medium.com/walmartlabs/the-benefits-of-server-side-rendering-over-client-side-rendering-5d07ff2cefe8) on the benefits and caveats of SSR. Anthony Gore also has a great article on [server side rendering a Vue application in Laravel](https://vuejsdevelopers.com/2017/11/06/vue-js-laravel-server-side-rendering/), which inspired this library.
 
 In case you're in need of a refresher...
 
