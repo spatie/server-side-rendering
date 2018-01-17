@@ -45,7 +45,7 @@ When you've got an answor to the "Do I need SSR?" question, ask yourself if you 
 
 If you're building a SPA that connects to an external API, and the PHP runtime doesn't provide any extra value, you're probably better off using a battle tested solution like [Next.js](https://github.com/zeit/next.js/) or [Nuxt.js](https://nuxtjs.org).
 
-As a final disclaimer, judging by the amount—well, lack—of people blogging about rendering JavaScript applications in PHP, this whole setup is uncharted territory. There might be more unknown caveats lurking around the corner.
+As a final disclaimer, judging by the amount—well, lack—of people blogging about rendering JavaScript applications in PHP, this whole setup is uncharted territory. There may be more unknown caveats lurking around the corner.
 
 If you're still sure you want to keep going, please continue!
 
