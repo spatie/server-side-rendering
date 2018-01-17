@@ -38,7 +38,7 @@ In case you're in need of a refresher...
 - SSR increases response times, and the overall load on your server
 - SSR adds a meaningful amount of complexity to your application
 
-If you've got an answor to the "Do I need SSR?" question, ask yourself if you need SSR in a PHP application. Benefits of rendering your app in a PHP runtime are:
+If you've got an answer to the "Do I need SSR?" question, ask yourself if you need SSR in a PHP application. Benefits of rendering your app in a PHP runtime are:
 
 - You can make use of your applications session & state
 - Reduced infrastructure complexity because you don't need to maintain a node server
