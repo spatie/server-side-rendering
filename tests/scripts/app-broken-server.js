@@ -1,0 +1,1 @@
+dispatch(foo.bar.baz);

@@ -136,6 +136,16 @@ class Renderer
     /**
      * @return $this
      */
+    public function withScript()
+    {
+        $this->withScript = true;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
     public function withoutScript()
     {
         $this->withScript = false;
@@ -146,19 +156,49 @@ class Renderer
     /**
      * @return $this
      */
-    public function withScript(string $loadStrategy = null, string $position = 'after')
+    public function loadScriptBefore()
     {
-        if (! in_array($loadStrategy, [null, 'async', 'defer'], true)) {
-            throw new Exception();
-        }
+        $this->scriptPosition = 'before';
 
-        if (! in_array($position, ['before', 'after'], true)) {
-            throw new Exception();
-        }
+        return $this;
+    }
 
-        $this->withScript = true;
-        $this->scriptLoadStrategy = $loadStrategy;
-        $this->scriptPosition = $position;
+    /**
+     * @return $this
+     */
+    public function loadScriptAfter()
+    {
+        $this->scriptPosition = 'after';
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function loadScriptDeferred()
+    {
+        $this->scriptLoadStrategy = 'defer';
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function loadScriptAsync()
+    {
+        $this->scriptLoadStrategy = 'async';
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function loadScriptSync()
+    {
+        $this->scriptLoadStrategy = null;
 
         return $this;
     }
@@ -166,7 +206,7 @@ class Renderer
     public function render(): string
     {
         if (! $this->enabled) {
-            return $this->renderFallback();
+            return $this->renderWithOutput($this->fallback);
         }
 
         try {
@@ -182,28 +222,15 @@ class Renderer
                 throw $exception->getException();
             }
 
-            return $this->renderFallback();
+            return $this->renderWithOutput($this->fallback);
         }
 
-        if ($this->scriptPosition === 'before') {
-            return $this->scriptTag() . $result;
-        }
-
-        return $result . $this->scriptTag();
+        return $this->renderWithOutput($result);
     }
 
     public function __toString() : string
     {
         return $this->render();
-    }
-
-    protected function renderFallback(): string
-    {
-        if ($this->scriptPosition === 'before') {
-            return $this->scriptTag() . $this->fallback;
-        }
-
-        return $this->fallback . $this->scriptTag();
     }
 
     protected function environmentScript(): string
@@ -232,12 +259,22 @@ class Renderer
         return $this->resolver->getServerScriptContents($this->entry);
     }
 
-    protected function scriptTag(): string
+    protected function renderWithOutput(string $output): string
     {
+        if (! $this->withScript) {
+            return $output;
+        }
+
         $clientScriptUrl = $this->resolver->getClientScriptUrl($this->entry);
 
         $scriptLoadStrategy = $this->scriptLoadStrategy ? " {$this->scriptLoadStrategy}" : '';
 
-        return "<script{$scriptLoadStrategy} src=\"{$clientScriptUrl}\"></script>";
+        $scriptTag = "<script{$scriptLoadStrategy} src=\"{$clientScriptUrl}\"></script>";
+
+        if ($this->scriptPosition === 'before') {
+            return $scriptTag . $output;
+        }
+
+        return $output . $scriptTag;
     }
 }
