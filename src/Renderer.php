@@ -8,10 +8,10 @@ use Spatie\Ssr\Exceptions\EngineError;
 
 class Renderer
 {
-    /** @var \Spatie\ServerRenderer\Engine */
+    /** @var \Spatie\Ssr\Engine */
     protected $engine;
 
-    /** @var \Spatie\ServerRenderer\Resolver */
+    /** @var \Spatie\Ssr\Resolver */
     protected $resolver;
 
     /** @var array */
