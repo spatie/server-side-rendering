@@ -18,7 +18,7 @@ $renderer = new Renderer($engine, $resolver);
 
 echo $renderer->entry('app')->render();
 
-// <div>My server rendered app!</div>
+// <div>My server rendered app!</div><script src="/app-client.js"></script>
 ```
 
 - Works with any JavaScript framework that allows for server side rendering
@@ -110,6 +110,126 @@ An engine executes a JS script on the server. This library ships with two engine
 The `V8` engine is a lightweight wrapper around the `V8Js` class. You'll need to install the [v8js extension](https://github.com/phpv8/v8js) to use this engine.
 
 The `Node` engine writes a temporary file with the necessary scripts to render your app, and executes it in a node.js process. You'll need to have [node.js](https://nodejs.org) installed to use this engine.
+
+### Rendering options
+
+You can chain any amount of options before rendering the app to control how everything's going to be displayed.
+
+```php
+echo $renderer
+    ->disabled($disabled)
+    ->withContext('user', $user)
+    ->entry('app')
+    ->render();
+```
+
+#### `enabled(bool $enabled = true)`
+
+Enables or disables server side rendering. When disabled, the client script and the fallback html will be rendered instead.
+
+#### `debug(bool $debug = true)`
+
+When debug is enabled, JavaScript errors will cause a php exception to throw. Without debug mode, the client script and the fallback html will be rendered instead so the app can be rendered from a clean slate.
+
+#### `entry(string $entry)`
+
+The entry identifier of your app. This will be used by the resolver to retrieve the client script url and server script contents.
+
+#### `withContext($context, $value = null)`
+
+Context is passed to the server script in the `context` variable. This is useful for hydrating your application's state. Context can contain anything that json-serializable.
+
+```php
+echo $renderer
+    ->entry('app')
+    ->withContext('user', ['name' => 'Sebastian'])
+    ->render();
+```
+
+```js
+// app-server.js
+
+store.user = context.user // { name: 'Sebastian' }
+
+// Render the app...
+```
+
+Context can be passed as key & value parameters, or as an array.
+
+```php
+$renderer->withContext('user', ['name' => 'Sebastian']);
+```
+
+```php
+$renderer->withContext(['user' => ['name' => 'Sebastian']]);
+```
+
+#### `withEnv($env, $value = null)`
+
+Env variables are placed in `process.env` when the server script is executed. Env variables must be primitive values like numbers, strings or booleans.
+
+```php
+$renderer->withEnv('NODE_ENV', 'production');
+```
+
+```php
+$renderer->withEnv(['NODE_ENV' => 'production']);
+```
+
+#### `withFallback(string $fallback)`
+
+Sets the fallback html for when server side rendering fails or is disabled. You can use this to render a container for the client script to render the fresh app in.
+
+```php
+$renderer->withFallback('<div id="app"></div>');
+```
+
+#### `withScript()` & `withoutScript()`
+
+Determines whether or not a script tag should be rendered in the client view. By default, script tags are rendered.
+
+```php
+echo $renderer->withScript();
+// <div>My server rendered app!</div><script src="/app-client.js"></script>
+```
+
+```php
+echo $renderer->withoutScript();
+// <div>My server rendered app!</div>
+```
+
+#### `loadScriptAfter()` & `loadScriptBefore()`
+
+Determines whether a script tag should be rendered before or after the server rendered html. By default, script tags are rendered after the html.
+
+```php
+echo $renderer->loadScriptAfter();
+// <div>My server rendered app!</div><script src="/app-client.js"></script>
+```
+
+```php
+echo $renderer->loadScriptBefore();
+// <script src="/app-client.js"></script><div>My server rendered app!</div>
+```
+
+#### `loadScriptSync()`, `loadScriptAsync()` & `loadScriptDeferred()`
+
+Determines how the script should be loaded on the page. By default, scripts have no special loading attributes (sync).
+
+```php
+echo $renderer->loadScriptSync();
+// <div>My server rendered app!</div><script src="/app-client.js"></script>
+```
+
+```php
+echo $renderer->loadScriptAsync();
+// <div>My server rendered app!</div><script async src="/app-client.js"></script>
+```
+
+```php
+echo $renderer->loadScriptDeferred();
+// <div>My server rendered app!</div><script defer src="/app-client.js"></script>
+```
 
 ### Testing
 
