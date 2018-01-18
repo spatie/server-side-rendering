@@ -2,8 +2,8 @@
 
 namespace Spatie\Ssr\Tests\Engines;
 
-use PHPUnit\Framework\TestCase;
 use Spatie\Ssr\Engines\V8;
+use PHPUnit\Framework\TestCase;
 use Spatie\Ssr\Exceptions\EngineError;
 
 class V8Test extends TestCase
