@@ -2,8 +2,6 @@
 
 namespace Spatie\Ssr\Tests\Renderer;
 
-use Exception;
-
 class ClientScriptTest extends TestCase
 {
     /** @test */

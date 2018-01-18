@@ -12,7 +12,7 @@ class PathResolverTest extends TestCase
 
     public function setUp()
     {
-        $this->scriptsPath = __DIR__ . '/../scripts';
+        $this->scriptsPath = __DIR__.'/../scripts';
         $this->publicPath = '/js';
     }
 
