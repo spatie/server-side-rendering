@@ -20,12 +20,12 @@ class PathResolver implements Resolver
 
     public function getClientScriptUrl(string $identifier): string
     {
-        return $this->publicPath . '/' . trim($identifier, '/') . '-client.js';
+        return $this->publicPath.'/'.trim($identifier, '/').'-client.js';
     }
 
     public function getServerScriptContents(string $identifier): string
     {
-        $path = $this->rootPath . '/' . trim($identifier, '/') . '-server.js';
+        $path = $this->rootPath.'/'.trim($identifier, '/').'-server.js';
 
         return file_get_contents($path);
     }
