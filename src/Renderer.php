@@ -2,8 +2,6 @@
 
 namespace Spatie\Ssr;
 
-use Exception;
-use Illuminate\Contracts\Support\Htmlable;
 use Spatie\Ssr\Exceptions\EngineError;
 
 class Renderer
@@ -91,7 +89,7 @@ class Renderer
      */
     public function withContext($context, $value = null)
     {
-        if (!is_array($context)) {
+        if (! is_array($context)) {
             $context = [$context => $value];
         }
 
@@ -239,7 +237,7 @@ class Renderer
         $process = empty($this->env) ? '{}' : json_encode($this->env);
 
         $envAssignments = array_map(function ($value, $key) {
-            return "process.env.{$key} = " . json_encode($value);
+            return "process.env.{$key} = ".json_encode($value);
         }, $this->env, array_keys($this->env));
 
         return implode(';', [
@@ -272,9 +270,9 @@ class Renderer
         $scriptTag = "<script{$scriptLoadStrategy} src=\"{$clientScriptUrl}\"></script>";
 
         if ($this->scriptPosition === 'before') {
-            return $scriptTag . $output;
+            return $scriptTag.$output;
         }
 
-        return $output . $scriptTag;
+        return $output.$scriptTag;
     }
 }
