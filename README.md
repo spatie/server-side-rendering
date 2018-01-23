@@ -42,7 +42,7 @@ In case you're in need of a refresher...
 
 When you've got an answer to the "Do I need SSR?" question, ask yourself if you need SSR in a PHP application. Benefits of rendering your app in a PHP runtime are:
 
-- You can make use of your applications session & state
+- Access to your application's session & state, which you normally don't if your SPA is consuming a stateless api
 - Reduced infrastructure complexity because you don't need to maintain a node server
 
 If you're building a SPA that connects to an external API, and the PHP runtime doesn't provide any extra value, you're probably better off using a battle tested solution like [Next.js](https://github.com/zeit/next.js/) or [Nuxt.js](https://nuxtjs.org).
