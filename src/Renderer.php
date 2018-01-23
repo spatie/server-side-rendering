@@ -235,8 +235,8 @@ class Renderer
 
     protected function environmentScript(): string
     {
-        $context = json_encode($this->context, JSON_FORCE_OBJECT);
-        $process = json_encode($this->env, JSON_FORCE_OBJECT);
+        $context = empty($this->context) ? '{}' : json_encode($this->context);
+        $process = empty($this->env) ? '{}' : json_encode($this->env);
 
         $envAssignments = array_map(function ($value, $key) {
             return "process.env.{$key} = " . json_encode($value);
