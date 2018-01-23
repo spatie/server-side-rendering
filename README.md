@@ -35,10 +35,10 @@ Server side rendering (SSR) can be hard, and non-trivial to enable in your JavaS
 
 In case you're in need of a refresher...
 
-- SSR is useful if you need to tailor your app for crawlers that can't execute JavaScript (SEO)
-- SSR reduces the time until the [first meaningful paint](https://www.quora.com/What-does-First-Meaningful-Paint-mean-in-Web-Performance)
-- SSR increases response times, and the overall load on your server
+- SSR reduces the time until the [first meaningful paint](https://www.quora.com/What-does-First-Meaningful-Paint-mean-in-Web-Performance), providing a better experience for your users
+- SSR is recommended if you need to tailor your app for crawlers that can't execute JavaScript (SEO)
 - SSR adds a meaningful amount of complexity to your application
+- SSR can increase response times and the overall load on your server
 
 When you've got an answer to the "Do I need SSR?" question, ask yourself if you need SSR in a PHP application. Benefits of rendering your app in a PHP runtime are:
 
