@@ -2,11 +2,10 @@
 
 namespace Spatie\Ssr\Engines;
 
-use Illuminate\Support\Facades\Storage;
 use Spatie\Ssr\Engine;
 use Spatie\Ssr\Exceptions\EngineError;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class Node implements Engine
 {
@@ -46,6 +45,6 @@ class Node implements Engine
 
     protected function createTempFilePath(): string
     {
-        return $this->tempPath . '/' . md5(time()) . '.js';
+        return $this->tempPath.'/'.md5(time()).'.js';
     }
 }
