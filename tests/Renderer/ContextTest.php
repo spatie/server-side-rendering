@@ -8,12 +8,12 @@ class ContextTest extends TestCase
     public function it_can_render_an_app_with_a_context_value()
     {
         $result = $this->renderer
-            ->entry('app-with-context')
-            ->withContext('user', ['name' => 'Sebastian'])
+            ->entry(__DIR__.'/../scripts/app-with-context-server.js')
+            ->context('user', ['name' => 'Sebastian'])
             ->render();
 
         $this->assertEquals(
-            '<p>Hello, Sebastian!</p><script src="/js/app-with-context-client.js"></script>',
+            '<p>Hello, Sebastian!</p>',
             $result
         );
     }
@@ -22,12 +22,12 @@ class ContextTest extends TestCase
     public function it_can_render_an_app_with_a_context_array()
     {
         $result = $this->renderer
-            ->entry('app-with-context')
-            ->withContext(['user' => ['name' => 'Sebastian']])
+            ->entry(__DIR__.'/../scripts/app-with-context-server.js')
+            ->context(['user' => ['name' => 'Sebastian']])
             ->render();
 
         $this->assertEquals(
-            '<p>Hello, Sebastian!</p><script src="/js/app-with-context-client.js"></script>',
+            '<p>Hello, Sebastian!</p>',
             $result
         );
     }

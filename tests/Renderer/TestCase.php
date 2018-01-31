@@ -19,11 +19,6 @@ abstract class TestCase extends BaseTestCase
 
         $engine = new Node($nodePath, $tempPath);
 
-        $scriptsPath = __DIR__.'/../scripts';
-        $publicPath = '/js';
-
-        $resolver = new PathResolver($scriptsPath, $publicPath);
-
-        $this->renderer = new Renderer($engine, $resolver);
+        $this->renderer = (new Renderer($engine))->debug();
     }
 }

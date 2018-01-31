@@ -3,14 +3,12 @@
 namespace Spatie\Ssr;
 
 use Spatie\Ssr\Exceptions\EngineError;
+use Spatie\Ssr\Exceptions\ServerScriptDoesNotExist;
 
 class Renderer
 {
     /** @var \Spatie\Ssr\Engine */
     protected $engine;
-
-    /** @var \Spatie\Ssr\Resolver */
-    protected $resolver;
 
     /** @var array */
     protected $context = [];
@@ -28,21 +26,11 @@ class Renderer
     protected $fallback = '';
 
     /** @var bool */
-    protected $withScript = true;
-
-    /** @var string */
-    protected $scriptLoadStrategy;
-
-    /** @var string */
-    protected $scriptPosition = 'after';
-
-    /** @var bool */
     protected $debug = false;
 
-    public function __construct(Engine $engine, Resolver $resolver)
+    public function __construct(Engine $engine)
     {
         $this->engine = $engine;
-        $this->resolver = $resolver;
     }
 
     /**
@@ -53,6 +41,18 @@ class Renderer
     public function enabled(bool $enabled = true)
     {
         $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * @param bool $enabled
+     *
+     * @return $this
+     */
+    public function disabled(bool $disabled = true)
+    {
+        $this->enabled = ! $disabled;
 
         return $this;
     }
@@ -87,7 +87,7 @@ class Renderer
      *
      * @return $this
      */
-    public function withContext($context, $value = null)
+    public function context($context, $value = null)
     {
         if (! is_array($context)) {
             $context = [$context => $value];
@@ -106,7 +106,7 @@ class Renderer
      *
      * @return $this
      */
-    public function withEnv($env, $value = null)
+    public function env($env, $value = null)
     {
         if (! is_array($env)) {
             $env = [$env => $value];
@@ -124,79 +124,9 @@ class Renderer
      *
      * @return $this
      */
-    public function withFallback(string $fallback)
+    public function fallback(string $fallback)
     {
         $this->fallback = $fallback;
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function withScript()
-    {
-        $this->withScript = true;
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function withoutScript()
-    {
-        $this->withScript = false;
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function loadScriptBefore()
-    {
-        $this->scriptPosition = 'before';
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function loadScriptAfter()
-    {
-        $this->scriptPosition = 'after';
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function loadScriptDeferred()
-    {
-        $this->scriptLoadStrategy = 'defer';
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function loadScriptAsync()
-    {
-        $this->scriptLoadStrategy = 'async';
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function loadScriptSync()
-    {
-        $this->scriptLoadStrategy = null;
 
         return $this;
     }
@@ -204,7 +134,7 @@ class Renderer
     public function render(): string
     {
         if (! $this->enabled) {
-            return $this->renderWithOutput($this->fallback);
+            return $this->fallback;
         }
 
         try {
@@ -220,10 +150,10 @@ class Renderer
                 throw $exception->getException();
             }
 
-            return $this->renderWithOutput($this->fallback);
+            return $this->fallback;
         }
 
-        return $this->renderWithOutput($result);
+        return $result;
     }
 
     public function __toString() : string
@@ -254,25 +184,10 @@ class Renderer
 
     protected function applicationScript(): string
     {
-        return $this->resolver->getServerScriptContents($this->entry);
-    }
-
-    protected function renderWithOutput(string $output): string
-    {
-        if (! $this->withScript) {
-            return $output;
+        if (! file_exists($this->entry)) {
+            throw ServerScriptDoesNotExist::atPath($this->entry);
         }
 
-        $clientScriptUrl = $this->resolver->getClientScriptUrl($this->entry);
-
-        $scriptLoadStrategy = $this->scriptLoadStrategy ? " {$this->scriptLoadStrategy}" : '';
-
-        $scriptTag = "<script{$scriptLoadStrategy} src=\"{$clientScriptUrl}\"></script>";
-
-        if ($this->scriptPosition === 'before') {
-            return $scriptTag.$output;
-        }
-
-        return $output.$scriptTag;
+        return file_get_contents($this->entry);
     }
 }
