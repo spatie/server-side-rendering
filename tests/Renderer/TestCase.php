@@ -4,7 +4,6 @@ namespace Spatie\Ssr\Tests\Renderer;
 
 use Spatie\Ssr\Renderer;
 use Spatie\Ssr\Engines\Node;
-use Spatie\Ssr\Resolvers\PathResolver;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
