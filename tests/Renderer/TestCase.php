@@ -4,7 +4,6 @@ namespace Spatie\Ssr\Tests\Renderer;
 
 use Spatie\Ssr\Renderer;
 use Spatie\Ssr\Engines\Node;
-use Spatie\Ssr\Resolvers\PathResolver;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -19,11 +18,6 @@ abstract class TestCase extends BaseTestCase
 
         $engine = new Node($nodePath, $tempPath);
 
-        $scriptsPath = __DIR__.'/../scripts';
-        $publicPath = '/js';
-
-        $resolver = new PathResolver($scriptsPath, $publicPath);
-
-        $this->renderer = new Renderer($engine, $resolver);
+        $this->renderer = (new Renderer($engine))->debug();
     }
 }

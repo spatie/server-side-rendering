@@ -9,16 +9,16 @@
 ```php
 use Spatie\Ssr\Renderer;
 use Spatie\Ssr\Engines\V8;
-use Spatie\Ssr\Resolvers\DefaultResolver;
 
 $engine = new V8();
-$resolver = new DefaultResolver(__DIR__.'../../public/js');
 
-$renderer = new Renderer($engine, $resolver);
+$renderer = new Renderer($engine);
 
-echo $renderer->entry('app')->render();
+echo $renderer
+    ->entry(__DIR__.'/../../public/js/app-server.js')
+    ->render();
 
-// <div>My server rendered app!</div><script src="/app-client.js"></script>
+// <div>My server rendered app!</div>
 ```
 
 - Works with any JavaScript framework that allows for server side rendering
@@ -65,47 +65,7 @@ composer require spatie/server-side-rendering
 
 This guide assumes you already know how to build a server-rendered application. If you're looking for reading material on the subject, Vue.js has a [very comprehensive guide](https://ssr.vuejs.org/en/) on SSR. It's Vue-specific, but the concepts also translate to other frameworks like React.
 
-### Core concepts
-
-Before getting started, let's review this library's core concepts.
-
-If you want to render your JavaScript app, you'll need to call the `render` method on the `Renderer` class. `Renderer` has two dependencies: a `Resolver` and an `Engine`, which will respectively fetch the necessary server & client scripts, and execute the server script.
-
-#### Resolvers
-
-When server side rendering a JavaScript app, your app will have two entry points: one for the server, which generates static html for the first paint, and one for the client, which bootstraps the application in the browser.
-
-The `Resolver` interface needs to be able to do two things, both based on the same `$entry` string.
-
-- Return the server script contents
-- Return a client script url
-
-A directory structure for a project that allows SSR commonly often looks similar to this:
-
-```
-app/
-  ...
-public/
-  js/
-    app-client.js
-    app-server.js
-```
-
-The `DefaultResolver` has a root path, and looks for files in that directory.
-
-```php
-use Spatie\Ssr\Resolvers\DefaultResolver;
-
-// Set the root path to an absolute path containing your scripts
-$resolver = new DefaultResolver(__DIR__.'/../../public/js');
-
-$resolver->getClientScriptUrl('app'); // 'js/app-client.js'
-$resolver->getServerScript('app'); // <app-server.js contents>
-```
-
-The client script url is needed on the webpage, and the server script will be executed by an `Engine` instance.
-
-#### Engines
+### Engines
 
 An engine executes a JS script on the server. This library ships with two engines: a `V8` engine which wraps some `V8Js` calls, so you'll need to install a PHP extension for this one, and a `Node` engine which builds a node script at runtime and executes it in a new process. An engine can run a script, or an array of multiple scripts.
 
@@ -120,31 +80,31 @@ You can chain any amount of options before rendering the app to control how ever
 ```php
 echo $renderer
     ->disabled($disabled)
-    ->withContext('user', $user)
-    ->entry('app')
+    ->context('user', $user)
+    ->entry(__DIR__.'/../../public/js/app-server.js')
     ->render();
 ```
 
-#### `enabled(bool $enabled = true)`
+#### `enabled(bool $enabled = true): $this`
 
 Enables or disables server side rendering. When disabled, the client script and the fallback html will be rendered instead.
 
-#### `debug(bool $debug = true)`
+#### `debug(bool $debug = true): $this`
 
 When debug is enabled, JavaScript errors will cause a php exception to throw. Without debug mode, the client script and the fallback html will be rendered instead so the app can be rendered from a clean slate.
 
-#### `entry(string $entry)`
+#### `entry(string $entry): $this`
 
-The entry identifier of your app. This will be used by the resolver to retrieve the client script url and server script contents.
+The path to your server script. The contents of this script will be run in the engine.
 
-#### `withContext($context, $value = null)`
+#### `context($context, $value = null): $this`
 
 Context is passed to the server script in the `context` variable. This is useful for hydrating your application's state. Context can contain anything that json-serializable.
 
 ```php
 echo $renderer
-    ->entry('app')
-    ->withContext('user', ['name' => 'Sebastian'])
+    ->entry(__DIR__.'/../../public/js/app-server.js')
+    ->context('user', ['name' => 'Sebastian'])
     ->render();
 ```
 
@@ -159,78 +119,44 @@ store.user = context.user // { name: 'Sebastian' }
 Context can be passed as key & value parameters, or as an array.
 
 ```php
-$renderer->withContext('user', ['name' => 'Sebastian']);
+$renderer->context('user', ['name' => 'Sebastian']);
 ```
 
 ```php
-$renderer->withContext(['user' => ['name' => 'Sebastian']]);
+$renderer->context(['user' => ['name' => 'Sebastian']]);
 ```
 
-#### `withEnv($env, $value = null)`
+#### `env($env, $value = null): $this`
 
 Env variables are placed in `process.env` when the server script is executed. Env variables must be primitive values like numbers, strings or booleans.
 
 ```php
-$renderer->withEnv('NODE_ENV', 'production');
+$renderer->env('NODE_ENV', 'production');
 ```
 
 ```php
-$renderer->withEnv(['NODE_ENV' => 'production']);
+$renderer->env(['NODE_ENV' => 'production']);
 ```
 
-#### `withFallback(string $fallback)`
+#### `fallback(string $fallback): $this`
 
 Sets the fallback html for when server side rendering fails or is disabled. You can use this to render a container for the client script to render the fresh app in.
 
 ```php
-$renderer->withFallback('<div id="app"></div>');
+$renderer->fallback('<div id="app"></div>');
 ```
 
-#### `withScript()` & `withoutScript()`
+#### `resolveEntryWith(callable $resolver): $this`
 
-Determines whether or not a script tag should be rendered in the client view. By default, script tags are rendered.
-
-```php
-echo $renderer->withScript();
-// <div>My server rendered app!</div><script src="/app-client.js"></script>
-```
+Add a callback to transform the entry when it gets resolved. It's useful to do this when creating the renderer so you don't have to deal with complex paths in your views.
 
 ```php
-echo $renderer->withoutScript();
-// <div>My server rendered app!</div>
-```
-
-#### `loadScriptAfter()` & `loadScriptBefore()`
-
-Determines whether a script tag should be rendered before or after the server rendered html. By default, script tags are rendered after the html.
-
-```php
-echo $renderer->loadScriptAfter();
-// <div>My server rendered app!</div><script src="/app-client.js"></script>
-```
-
-```php
-echo $renderer->loadScriptBefore();
-// <script src="/app-client.js"></script><div>My server rendered app!</div>
-```
-
-#### `loadScriptSync()`, `loadScriptAsync()` & `loadScriptDeferred()`
-
-Determines how the script should be loaded on the page. By default, scripts have no special loading attributes (sync).
-
-```php
-echo $renderer->loadScriptSync();
-// <div>My server rendered app!</div><script src="/app-client.js"></script>
-```
-
-```php
-echo $renderer->loadScriptAsync();
-// <div>My server rendered app!</div><script async src="/app-client.js"></script>
-```
-
-```php
-echo $renderer->loadScriptDeferred();
-// <div>My server rendered app!</div><script defer src="/app-client.js"></script>
+echo $renderer
+    ->resolveEntryWith(function (string $entry): string {
+        return __DIR__."/../../public/js/{$entry}-server.js";
+    })
+    ->entry('app')
+    ->render();
 ```
 
 ### Testing
