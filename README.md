@@ -146,6 +146,19 @@ Sets the fallback html for when server side rendering fails or is disabled. You 
 $renderer->fallback('<div id="app"></div>');
 ```
 
+#### `resolveEntryWith(callable $resolver): $this`
+
+Add a callback to transform the entry when it gets resolved. It's useful to do this when creating the renderer so you don't have to deal with complex paths in your views.
+
+```php
+echo $renderer
+    ->resolveEntryWith(function (string $entry): string {
+        return __DIR__."/../../public/js/{$entry}-server.js";
+    })
+    ->entry('app')
+    ->render();
+```
+
 ### Testing
 
 ```bash
