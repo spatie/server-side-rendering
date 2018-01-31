@@ -2,8 +2,8 @@
 
 namespace Spatie\Ssr\Tests\Renderer;
 
-use Symfony\Component\Process\Exception\ProcessFailedException;
 use Spatie\Ssr\Exceptions\ServerScriptDoesNotExist;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class RendererTest extends TestCase
 {
@@ -67,7 +67,7 @@ class RendererTest extends TestCase
         $this->expectException(ServerScriptDoesNotExist::class);
 
         $this->renderer
-            ->entry(__DIR__ . '/../scripts/app-doesnt-exist.js')
+            ->entry(__DIR__.'/../scripts/app-doesnt-exist.js')
             ->debug(false)
             ->render();
     }
@@ -77,7 +77,7 @@ class RendererTest extends TestCase
     {
         $result = $this->renderer
             ->resolveEntryWith(function (string $identifier) {
-                return __DIR__ . "/../scripts/{$identifier}-server.js";
+                return __DIR__."/../scripts/{$identifier}-server.js";
             })
             ->entry('app')
             ->render();
