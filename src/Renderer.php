@@ -28,6 +28,9 @@ class Renderer
     /** @var bool */
     protected $debug = false;
 
+    /** @var callable|null */
+    protected $entryResolver;
+
     public function __construct(Engine $engine)
     {
         $this->engine = $engine;
@@ -131,6 +134,18 @@ class Renderer
         return $this;
     }
 
+    /**
+     * @param callable $resolver
+     *
+     * @return $this
+     */
+    public function resolveEntryWith(callable $entryResolver)
+    {
+        $this->entryResolver = $entryResolver;
+
+        return $this;
+    }
+
     public function render(): string
     {
         if (! $this->enabled) {
@@ -184,10 +199,14 @@ class Renderer
 
     protected function applicationScript(): string
     {
-        if (! file_exists($this->entry)) {
-            throw ServerScriptDoesNotExist::atPath($this->entry);
+        $entry = $this->entryResolver
+            ? call_user_func($this->entryResolver, $this->entry)
+            : $this->entry;
+
+        if (! file_exists($entry)) {
+            throw ServerScriptDoesNotExist::atPath($entry);
         }
 
-        return file_get_contents($this->entry);
+        return file_get_contents($entry);
     }
 }

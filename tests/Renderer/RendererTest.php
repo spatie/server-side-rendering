@@ -73,6 +73,22 @@ class RendererTest extends TestCase
     }
 
     /** @test */
+    public function it_can_register_an_entry_resolver()
+    {
+        $result = $this->renderer
+            ->resolveEntryWith(function (string $identifier) {
+                return __DIR__ . "/../scripts/{$identifier}-server.js";
+            })
+            ->entry('app')
+            ->render();
+
+        $this->assertEquals(
+            '<p>Hello, world!</p>',
+            $result
+        );
+    }
+
+    /** @test */
     public function it_implements_to_string()
     {
         $result = (string) $this->renderer->entry(__DIR__.'/../scripts/app-server.js');
