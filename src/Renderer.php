@@ -171,11 +171,6 @@ class Renderer
         return $result;
     }
 
-    public function __toString() : string
-    {
-        return $this->render();
-    }
-
     protected function environmentScript(): string
     {
         $context = empty($this->context) ? '{}' : json_encode($this->context);

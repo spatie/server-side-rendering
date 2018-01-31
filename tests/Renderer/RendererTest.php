@@ -87,15 +87,4 @@ class RendererTest extends TestCase
             $result
         );
     }
-
-    /** @test */
-    public function it_implements_to_string()
-    {
-        $result = (string) $this->renderer->entry(__DIR__.'/../scripts/app-server.js');
-
-        $this->assertEquals(
-            '<p>Hello, world!</p>',
-            $result
-        );
-    }
 }
