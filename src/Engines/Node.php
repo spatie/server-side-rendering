@@ -45,6 +45,6 @@ class Node implements Engine
 
     protected function createTempFilePath(): string
     {
-        return $this->tempPath.'/'.md5(time()).'.js';
+        return implode(DIRECTORY_SEPARATOR, [$this->tempPath, md5(time()).'.js']);
     }
 }
