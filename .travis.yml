@@ -12,7 +12,6 @@ env:
     - COMPOSER_FLAGS=""
 
 before_script:
-  - printf "\n" | pecl install v8js
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
 
