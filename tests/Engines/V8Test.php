@@ -2,6 +2,7 @@
 
 namespace Spatie\Ssr\Tests\Engines;
 
+use V8Js;
 use Spatie\Ssr\Engines\V8;
 use PHPUnit\Framework\TestCase;
 use Spatie\Ssr\Exceptions\EngineError;
@@ -18,7 +19,7 @@ class V8Test extends TestCase
     /** @test */
     public function it_can_run_a_script_and_return_its_contents()
     {
-        $engine = new V8();
+        $engine = new V8(new V8Js());
 
         $result = $engine->run("print('Hello, world!')");
 
@@ -28,7 +29,7 @@ class V8Test extends TestCase
     /** @test */
     public function it_throws_an_engine_error_when_a_script_is_invalid()
     {
-        $engine = new V8();
+        $engine = new V8(new V8Js());
 
         $this->expectException(EngineError::class);
 
@@ -38,7 +39,7 @@ class V8Test extends TestCase
     /** @test */
     public function it_has_a_dispatch_handler()
     {
-        $engine = new V8();
+        $engine = new V8(new V8Js());
 
         $this->assertEquals('print', $engine->getDispatchHandler());
     }

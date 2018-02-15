@@ -12,9 +12,9 @@ class V8 implements Engine
     /** @var \V8Js */
     protected $v8;
 
-    public function __construct()
+    public function __construct(V8Js $v8)
     {
-        $this->v8 = new V8Js();
+        $this->v8 = $v8;
     }
 
     public function run(string $script): string
