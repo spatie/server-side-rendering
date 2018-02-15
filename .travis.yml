@@ -5,11 +5,14 @@ php:
   - 7.2
 
 env:
+  global:
+    - NODE_PATH=/usr/sbin/node
   matrix:
     - COMPOSER_FLAGS="--prefer-lowest"
     - COMPOSER_FLAGS=""
 
 before_script:
+  - which node
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
 
