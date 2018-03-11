@@ -27,7 +27,7 @@ class Node implements Engine
 
         file_put_contents($tempFilePath, $script);
 
-        $process = new Process([$this->nodePath, $tempFilePath]);
+        $process = new Process("{$this->nodePath} {$tempFilePath}");
 
         try {
             return substr($process->mustRun()->getOutput(), 0, -1);
