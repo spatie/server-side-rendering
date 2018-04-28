@@ -25,7 +25,7 @@ echo $renderer
 - Runs with or without the V8Js PHP extension
 - Requires minimal configuration
 
-If you're building a Laravel app, check out the [laravel-ssr](https://github.com/spatie/laravel-ssr) package instead.
+If you're building a Laravel app, check out the [laravel-server-side-rendering](https://github.com/spatie/laravel-server-side-rendering) package instead.
 
 This readme assumes you already have some know-how about building server rendered JavaScript apps.
 
