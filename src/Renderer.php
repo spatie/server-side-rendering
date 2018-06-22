@@ -146,7 +146,7 @@ class Renderer
         return $this;
     }
 
-    public function render(): string
+    public function render()
     {
         if (! $this->enabled) {
             return $this->fallback;
@@ -168,6 +168,14 @@ class Renderer
             return $this->fallback;
         }
 
+        $decoded = json_decode($result, true);
+
+        if (json_last_error() === JSON_ERROR_NONE) {
+            // Looks like the engine returned a JSON object.
+            return $decoded;
+        }
+
+        // Looks like the engine returned a string.
         return $result;
     }
 

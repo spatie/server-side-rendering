@@ -21,6 +21,19 @@ class RendererTest extends TestCase
     }
 
     /** @test */
+    public function it_can_decode_json()
+    {
+        $result = $this->renderer
+            ->entry(__DIR__.'/../scripts/app-with-json-server.js')
+            ->render();
+
+        $this->assertEquals(
+            ['foo' => 'bar'],
+            $result
+        );
+    }
+
+    /** @test */
     public function it_renders_a_fallback_when_disabled()
     {
         $result = $this->renderer
