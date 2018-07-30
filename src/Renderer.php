@@ -196,7 +196,11 @@ class Renderer
 
     protected function dispatchScript(): string
     {
-        return "var dispatch = {$this->engine->getDispatchHandler()}";
+        return <<<JS
+var dispatch = function (result) {
+    return {$this->engine->getDispatchHandler()}(JSON.stringify(result))
+}
+JS;
     }
 
     protected function applicationScript(): string

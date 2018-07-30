@@ -1,1 +1,1 @@
-dispatch(JSON.stringify({ foo: 'bar' }));
+dispatch({ foo: 'bar' });
