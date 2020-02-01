@@ -4,8 +4,8 @@ namespace Spatie\Ssr\Engines;
 
 use Spatie\Ssr\Engine;
 use Spatie\Ssr\Exceptions\EngineError;
-use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 class Node implements Engine
 {
