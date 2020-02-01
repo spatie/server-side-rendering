@@ -2,9 +2,9 @@
 
 namespace Spatie\Ssr\Tests\Renderer;
 
-use Spatie\Ssr\Renderer;
-use Spatie\Ssr\Engines\Node;
 use PHPUnit\Framework\TestCase as BaseTestCase;
+use Spatie\Ssr\Engines\Node;
+use Spatie\Ssr\Renderer;
 
 abstract class TestCase extends BaseTestCase
 {

@@ -2,10 +2,10 @@
 
 namespace Spatie\Ssr\Engines;
 
-use V8Js;
-use V8JsException;
 use Spatie\Ssr\Engine;
 use Spatie\Ssr\Exceptions\EngineError;
+use V8Js;
+use V8JsException;
 
 class V8 implements Engine
 {
