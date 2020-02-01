@@ -2,8 +2,6 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/server-side-rendering.svg?style=flat-square)](https://packagist.org/packages/spatie/server-side-rendering)
 [![Build Status](https://img.shields.io/travis/spatie/server-side-rendering/master.svg?style=flat-square)](https://travis-ci.org/spatie/server-side-rendering)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/xxxxxxxxx.svg?style=flat-square)](https://insight.sensiolabs.com/projects/xxxxxxxxx)
-[![Quality Score](https://img.shields.io/scrutinizer/g/spatie/server-side-rendering.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/server-side-rendering)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/server-side-rendering.svg?style=flat-square)](https://packagist.org/packages/spatie/server-side-rendering)
 
 ```php
