@@ -27,7 +27,13 @@ class Node implements Engine
 
         file_put_contents($tempFilePath, $script);
 
-        $process = new Process("{$this->nodePath} {$tempFilePath}");
+        // Version 4.2 introduced fromShellCommandline
+        $command = "{$this->nodePath} {$tempFilePath}";
+        if (method_exists(Process::class, 'fromShellCommandline')) {
+            $process = Process::fromShellCommandline($command);
+        } else {
+            $process = new Process($command);
+        }
 
         try {
             return substr($process->mustRun()->getOutput(), 0, -1);
