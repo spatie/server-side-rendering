@@ -27,6 +27,16 @@ If you're building a Laravel app, check out the [laravel-server-side-rendering](
 
 This readme assumes you already have some know-how about building server rendered JavaScript apps.
 
+## Support us
+
+Learn how to create a package like this one, by watching our premium video course:
+
+[![Laravel Package training](https://spatie.be/github/package-training.jpg)](https://laravelpackage.training)
+
+We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
+
+We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+
 ## Who's this package for?
 
 Server side rendering (SSR) can be hard, and non-trivial to enable in your JavaScript application. Before using this library, make sure you know what you're getting in to. Alex Grigoryan has a [pretty concise article](https://medium.com/walmartlabs/the-benefits-of-server-side-rendering-over-client-side-rendering-5d07ff2cefe8) on the benefits and caveats of SSR. Anthony Gore also has a great article on [server side rendering a Vue application in Laravel](https://vuejsdevelopers.com/2017/11/06/vue-js-laravel-server-side-rendering/), which inspired this library.
@@ -187,13 +197,6 @@ We publish all received postcards [on our company website](https://spatie.be/en/
 
 - [Sebastian De Deyne](https://github.com/sebastiandedeyne)
 - [All Contributors](../../contributors)
-
-## Support us
-
-Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
-
-Does your business depend on our contributions? Reach out and support us on [Patreon](https://www.patreon.com/spatie).
-All pledges will be dedicated to allocating workforce on maintenance and new awesome stuff.
 
 ## License
 
