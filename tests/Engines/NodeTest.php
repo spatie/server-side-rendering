@@ -9,7 +9,8 @@ use Spatie\Ssr\Exceptions\EngineError;
 class NodeTest extends TestCase
 {
     /** @var string */
-    private $nodePath, $tempPath;
+    private $nodePath;
+    private $tempPath;
 
     public function setUp()
     {
