@@ -55,7 +55,7 @@ class Renderer
      */
     public function disabled(bool $disabled = true)
     {
-        $this->enabled = !$disabled;
+        $this->enabled = ! $disabled;
 
         return $this;
     }
@@ -92,7 +92,7 @@ class Renderer
      */
     public function context($context, $value = null)
     {
-        if (!is_array($context)) {
+        if (! is_array($context)) {
             $context = [$context => $value];
         }
 
@@ -111,7 +111,7 @@ class Renderer
      */
     public function env($env, $value = null)
     {
-        if (!is_array($env)) {
+        if (! is_array($env)) {
             $env = [$env => $value];
         }
 
@@ -148,7 +148,7 @@ class Renderer
 
     public function render()
     {
-        if (!$this->enabled) {
+        if (! $this->enabled) {
             return $this->fallback;
         }
 
@@ -209,7 +209,7 @@ JS;
             ? call_user_func($this->entryResolver, $this->entry)
             : $this->entry;
 
-        if (!file_exists($entry)) {
+        if (! file_exists($entry)) {
             throw ServerScriptDoesNotExist::atPath($entry);
         }
 
