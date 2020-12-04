@@ -9,7 +9,7 @@ use V8Js;
 
 class V8Test extends TestCase
 {
-    public function setUp()
+    public function setup(): void
     {
         if (! extension_loaded('v8js')) {
             $this->markTestSkipped('The V8Js extension is not available.');

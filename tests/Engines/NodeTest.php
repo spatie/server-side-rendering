@@ -12,7 +12,7 @@ class NodeTest extends TestCase
 
     private $tempPath;
 
-    public function setUp()
+    public function setup(): void
     {
         $this->nodePath = getenv('NODE_PATH') ?: '/usr/local/bin/node';
         $this->tempPath = __DIR__.'/../temp';
