@@ -11,7 +11,7 @@ class V8Test extends TestCase
 {
     public function setUp()
     {
-        if (!extension_loaded('v8js')) {
+        if (! extension_loaded('v8js')) {
             $this->markTestSkipped('The V8Js extension is not available.');
         }
     }
