@@ -11,7 +11,7 @@ abstract class TestCase extends BaseTestCase
     /** @var \Spatie\Ssr\Renderer */
     protected $renderer;
 
-    public function setUp()
+    public function setup(): void
     {
         $nodePath = getenv('NODE_PATH') ?: '/usr/local/bin/node';
         $tempPath = __DIR__.'/../temp';

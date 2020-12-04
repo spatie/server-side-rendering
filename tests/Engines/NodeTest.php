@@ -8,10 +8,11 @@ use Spatie\Ssr\Exceptions\EngineError;
 
 class NodeTest extends TestCase
 {
-    /** @var string */
-    private $nodePath, $tempPath;
+    private $nodePath;
 
-    public function setUp()
+    private $tempPath;
+
+    public function setup(): void
     {
         $this->nodePath = getenv('NODE_PATH') ?: '/usr/local/bin/node';
         $this->tempPath = __DIR__.'/../temp';
