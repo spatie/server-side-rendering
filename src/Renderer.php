@@ -183,15 +183,16 @@ class Renderer
     {
         $context = empty($this->context) ? '{}' : json_encode($this->context);
 
-        $envAssignments = array_map(function ($value, $key) {
+        $envAssignments = implode(';', array_map(function ($value, $key) {
             return "process.env.{$key} = ".json_encode($value);
-        }, $this->env, array_keys($this->env));
+        }, $this->env, array_keys($this->env)));
 
-        return implode(';', [
-            'var process = process || { env: {} }',
-            implode(';', $envAssignments),
-            "var context = {$context}",
-        ]);
+        return <<<JS
+if (typeof process !== 'undefined') {
+    {$envAssignments}
+}
+var context = {$context};
+JS;
     }
 
     protected function dispatchScript(): string
