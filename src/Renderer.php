@@ -3,7 +3,7 @@
 namespace Spatie\Ssr;
 
 use Spatie\Ssr\Exceptions\EngineError;
-use Spatie\Ssr\Exceptions\ServerScriptDoesNotExist;
+use Spatie\Ssr\Exceptions\ServerScriptNotReadable;
 
 class Renderer
 {
@@ -209,8 +209,8 @@ JS;
             ? call_user_func($this->entryResolver, $this->entry)
             : $this->entry;
 
-        if (! file_exists($entry)) {
-            throw ServerScriptDoesNotExist::atPath($entry);
+        if (! is_readable($entry)) {
+            throw ServerScriptNotReadable::atPath($entry);
         }
 
         return file_get_contents($entry);
