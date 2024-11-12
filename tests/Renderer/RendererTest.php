@@ -2,7 +2,7 @@
 
 namespace Spatie\Ssr\Tests\Renderer;
 
-use Spatie\Ssr\Exceptions\ServerScriptDoesNotExist;
+use Spatie\Ssr\Exceptions\ServerScriptNotReadable;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class RendererTest extends TestCase
@@ -77,7 +77,7 @@ class RendererTest extends TestCase
     /** @test */
     public function it_always_throws_an_exception_when_the_server_script_does_not_exist()
     {
-        $this->expectException(ServerScriptDoesNotExist::class);
+        $this->expectException(ServerScriptNotReadable::class);
 
         $this->renderer
             ->entry(__DIR__.'/../scripts/app-doesnt-exist.js')
