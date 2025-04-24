@@ -188,7 +188,7 @@ class Renderer
         }, $this->env, array_keys($this->env));
 
         return implode(';', [
-            '(function () { if (this.process != null) { return; } this.process = { env: {}, argv: [] }; }).call(null)',
+            '(function () { if (!this || this.process != null) { return; } this.process = { env: {}, argv: [] }; }).call(null)',
             implode(';', $envAssignments),
             "var context = {$context}",
         ]);
