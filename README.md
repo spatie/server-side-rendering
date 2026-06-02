@@ -1,7 +1,7 @@
 # Server side rendering JavaScript in your PHP application
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/server-side-rendering.svg?style=flat-square)](https://packagist.org/packages/spatie/server-side-rendering)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/spatie/server-side-rendering/run-tests.yml?branch=main&label=Tests)](https://github.com/spatie/server-side-rendering/actions?query=workflow%3ATests+branch%3Amain)
+[![GitHub Tests Action Status](https://github.com/spatie/server-side-rendering/actions/workflows/run-tests.yml/badge.svg)](https://github.com/spatie/server-side-rendering/actions?query=workflow%3ATests+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/server-side-rendering.svg?style=flat-square)](https://packagist.org/packages/spatie/server-side-rendering)
 
 ```php
